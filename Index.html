@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>zain Exa | CarX Street Injector</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0f1e;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: #0d1117;
+            border-radius: 28px;
+            border: 1px solid #1f6feb;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #0d1117, #0a0c10);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #1f6feb;
+        }
+        .header h1 {
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 22px;
+        }
+        .badge {
+            display: inline-block;
+            margin-top: 8px;
+            background: #1f6feb22;
+            border: 1px solid #1f6feb;
+            border-radius: 40px;
+            padding: 4px 16px;
+            font-size: 11px;
+            color: #7aa9ff;
+        }
+        .content {
+            padding: 24px;
+        }
+        .input-group {
+            margin-bottom: 18px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #c9d1d9;
+            font-size: 13px;
+        }
+        input {
+            width: 100%;
+            background: #010409;
+            border: 1.5px solid #30363d;
+            border-radius: 16px;
+            padding: 12px 14px;
+            color: #fff;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        input:focus {
+            outline: none;
+            border-color: #1f6feb;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0 16px;
+        }
+        button {
+            flex: 1;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 40px;
+            padding: 12px 0;
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 13px;
+            color: #f0f6fc;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: #1f6feb;
+            border-color: #1f6feb;
+            color: white;
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+        .log-box {
+            background: #010409;
+            border-radius: 20px;
+            padding: 12px;
+            margin-top: 16px;
+            border: 1px solid #21262d;
+            font-family: monospace;
+            font-size: 11px;
+            color: #8b949e;
+            height: 140px;
+            overflow-y: auto;
+        }
+        .log-line {
+            margin-bottom: 6px;
+            border-left: 2px solid #1f6feb;
+            padding-left: 10px;
+        }
+        .footer {
+            background: #0a0c10;
+            padding: 12px;
+            text-align: center;
+            border-top: 1px solid #1f2a3e;
+            font-size: 10px;
+            color: #4f5b68;
+        }
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .login-box {
+            background: #0d1117;
+            border: 1px solid #1f6feb;
+            border-radius: 28px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+        }
+        .login-box h2 {
+            color: #60a5fa;
+            margin-bottom: 20px;
+        }
+        .login-box input {
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        .btn-login {
+            background: #238636;
+            border-color: #2ea043;
+            width: 100%;
+            margin-top: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        .error-msg {
+            color: #f85149;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HALAMAN LOGIN -->
+<div id="loginOverlay" class="login-overlay">
+    <div class="login-box">
+        <h2>🔐 ZAIN EXA</h2>
+        <input type="password" id="codeInput" placeholder="MASUKKAN KODE" autocomplete="off">
+        <button id="loginBtn" class="btn-login">🚀 MASUK</button>
+        <div id="loginError" class="error-msg"></div>
+    </div>
+</div>
+
+<!-- HALAMAN INJECTOR -->
+<div id="injectorApp" class="container hidden">
+    <div class="header">
+        <h1>💉 ZAIN EXA INJECTOR</h1>
+        <div class="badge">⚡ CarX Street | Dark Blue Edition ⚡</div>
+    </div>
+    <div class="content">
+        <div class="input-group">
+            <label>🎮 USERNAME AKUN CARX STREET</label>
+            <input type="text" id="targetUsername" placeholder="Contoh: zainexa22" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+            <label>💰 MONEY</label>
+            <input type="number" id="moneyAmount" placeholder="Isi jumlah money">
+        </div>
+
+        <div class="input-group">
+            <label>💨 NITRO</label>
+            <input type="number" id="nitroAmount" placeholder="Isi jumlah nitro">
+        </div>
+
+        <div class="input-group">
+            <label>✨ GOLD</label>
+            <input type="number" id="goldAmount" placeholder="Isi jumlah gold">
+        </div>
+
+        <div class="button-group">
+            <button class="btn-primary" id="injectMoneyBtn">💰 INJECT MONEY</button>
+            <button class="btn-primary" id="injectNitroBtn">💨 INJECT NITRO</button>
+            <button class="btn-primary" id="injectGoldBtn">✨ INJECT GOLD</button>
+        </div>
+
+        <div class="button-group">
+            <button id="unlockAllBtn">🔓 UNLOCK ALL CAR</button>
+            <button id="bypassBtn">🚀 BYPASS PAYWALL</button>
+            <button id="resetLogBtn">🗑️ RESET LOG</button>
+        </div>
+
+        <div class="log-box" id="logPanel">
+            <div class="log-line">💀 [Nesia] zain Exa siap melayani tuan...</div>
+            <div class="log-line">🔐 Masukkan kode untuk login</div>
+        </div>
+    </div>
+    <div class="footer">
+        ⚡ zain Exa · Injector + 10 Kode Login ⚡
+    </div>
+</div>
+
+<script>
+    // ========================
+    // 10 KODE LOGIN RAHASIA
+    // ========================
+    const validCodes = [
+        "ZAIN123", "NEXUS456", "DARK789", "GEMINI321", "NESIA999",
+        "CARX777", "BYASS888", "EXA000", "VIP2026", "GAS555"
+    ];
+
+    let currentTarget = '';
+    const logPanel = document.getElementById('logPanel');
+    const loginOverlay = document.getElementById('loginOverlay');
+    const injectorApp = document.getElementById('injectorApp');
+    const codeInput = document.getElementById('codeInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginError = document.getElementById('loginError');
+
+    function addLog(msg, isError = false) {
+        const logDiv = document.createElement('div');
+        logDiv.className = 'log-line';
+        logDiv.style.borderLeftColor = isError ? '#f85149' : '#1f6feb';
+        logDiv.innerHTML = `💉 ${new Date().toLocaleTimeString()} — ${msg}`;
+        logPanel.appendChild(logDiv);
+        logDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if(logPanel.children.length > 35) logPanel.removeChild(logPanel.children[0]);
+    }
+
+    function injectToAccount(username, value, type) {
+        if(!username || username.trim() === "") {
+            addLog(`❌ GAGAL: Masukkan username dulu!`, true);
+            return false;
+        }
+        if(!value || value <= 0) {
+            addLog(`❌ GAGAL: Isi nilai ${type} dulu!`, true);
+            return false;
+        }
+
+        // Simpan ke localStorage
+        localStorage.setItem(`carx_${username}_${type}`, value);
+        addLog(`✅ ${type.toUpperCase()} ${parseInt(value).toLocaleString()} ke ${username} berhasil!`);
+        return true;
+    }
+
+    function bypassPaywall() {
+        localStorage.setItem('verified', 'true');
+        localStorage.setItem('premium', 'true');
+        localStorage.setItem('paid', 'true');
+        addLog(`🚫 PAYWALL BERHASIL DIHILANGKAN!`);
+    }
+
+    // ========================
+    // LOGIN HANDLER
+    // ========================
+    function handleLogin() {
+        const enteredCode = codeInput.value.trim().toUpperCase();
+        if(enteredCode === "") {
+            loginError.innerText = "❌ Masukkan kode akses!";
+            return;
+        }
+
+        if(validCodes.includes(enteredCode)) {
+            loginOverlay.classList.add('hidden');
+            injectorApp.classList.remove('hidden');
+            addLog(`✅ Login berhasil! Selamat datang di injector CarX Street.`);
+            addLog(`🔥 10 kode rahasia aktif, lo udah masuk.`);
+        } else {
+            loginError.innerText = "❌ KODE SALAH! Coba lagi.";
+        }
+    }
+
+    loginBtn.addEventListener('click', handleLogin);
+    codeInput.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') handleLogin();
+    });
+
+    // ========================
+    // EVENT INJECTOR
+    // ========================
+    document.getElementById('targetUsername').addEventListener('input', (e) => {
+        currentTarget = e.target.value;
+    });
+
+    document.getElementById('injectMoneyBtn').onclick = () => {
+        let u = document.getElementById('targetUsername').value;
+        let v = document.getElementById('moneyAmount').value;
+        if(!u) { addLog("❌ Masukkan username dulu!", true); return; }
+        if(!v) { addLog("❌ Isi jumlah MONEY!", true); return; }
+        injectToAccount(u, v, 'money');
+    };
+
+    document.getElementById('injectNitroBtn').onclick = () => {
+        let u = document.getElementById('targetUsername').value;
+        let v = document.getElementById('nitroAmount').value;
+        if(!u) { addLog("❌ Masukkan username dulu!", true); return; }
+        if(!v) { addLog("❌ Isi jumlah NITRO!", true); return; }
+        injectToAccount(u, v, 'nitro');
+    };
+
+    document.getElementById('injectGoldBtn').onclick = () => {
+        let u = document.getElementById('targetUsername').value;
+        let v = document.getElementById('goldAmount').value;
+        if(!u) { addLog("❌ Masukkan username dulu!", true); return; }
+        if(!v) { addLog("❌ Isi jumlah GOLD!", true); return; }
+        injectToAccount(u, v, 'gold');
+    };
+
+    document.getElementById('unlockAllBtn').onclick = () => {
+        let u = document.getElementById('targetUsername').value;
+        if(!u) { addLog("❌ Masukkan username dulu!", true); return; }
+        localStorage.setItem(`carx_${u}_unlocked`, 'true');
+        addLog(`🔓 SEMUA MOBIL terbuka untuk ${u}!`);
+    };
+
+    document.getElementById('bypassBtn').onclick = () => {
+        bypassPaywall();
+    };
+
+    document.getElementById('resetLogBtn').onclick = () => {
+        logPanel.innerHTML = '';
+        addLog(`Log bersih. Ready to inject!`);
+    };
+</script>
+</body>
+</html>
